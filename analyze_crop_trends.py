@@ -3,8 +3,16 @@ import pandas as pd
 import glob
 
 # Get all crop folders
-base_path = r"c:\Users\2022n\Desktop\llml\KisaanPragati"
-crop_folders = [f for f in os.listdir(base_path) 
+# If the original hard-coded path doesn't exist on this machine, fall back to the
+# script's parent directory (the repository root). This makes the script portable.
+default_path = r"c:\Users\2022n\Desktop\llml\KisaanPragati"
+if os.path.exists(default_path):
+    base_path = default_path
+else:
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    print(f"Note: hard-coded path {default_path!r} not found. Using repository folder: {base_path!r}")
+
+crop_folders = [f for f in os.listdir(base_path)
                 if os.path.isdir(os.path.join(base_path, f)) and f != '__pycache__']
 
 # List to store results
